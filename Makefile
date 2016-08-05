@@ -1,4 +1,4 @@
-DEV_ROCKS = busted luacov luacov-coveralls luacheck
+DEV_ROCKS = busted luacheck
 
 .PHONY: install dev clean doc lint test coverage
 
@@ -15,12 +15,6 @@ dev: install
 		fi \
 	done;
 
-clean:
-	@rm -f luacov.*
-
-doc:
-	@ldoc -c config.ld kong
-
 lint:
 	@luacheck -q . \
 		--std 'ngx_lua+busted' \
@@ -32,8 +26,3 @@ lint:
 test:
 	@busted -v spec
 
-coverage:
-	@rm -f luacov.*
-	@busted --coverage spec/
-	@luacov -c spec/.luacov
-	@tail -n 1 luacov.report.out | awk '{ print $$3 }'
