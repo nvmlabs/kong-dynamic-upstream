@@ -1,7 +1,7 @@
 package = "kong-dynamic-upstream"
 version = "0.1.0-0"
 source = {
-  url = "..."
+  url = "git://github.com/nvmlabs/kong-dynamic-upstream"
 }
 description = {
   summary = "A Kong plugin that sets different upstream URLs based on API and Consumer",
