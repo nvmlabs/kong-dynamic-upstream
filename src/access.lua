@@ -7,7 +7,11 @@ local function replaceHost(url, newHost)
     return newHost
   end
 
-  local path = string.sub(url, pathIndex + 1)
+  if newHost:sub(#newHost) == "/" then
+	newHost = newHost:sub(1, -2)
+  end
+
+  local path = url:sub(pathIndex + 1)
   return newHost .. path
 end
 
