@@ -11,9 +11,9 @@ describe ("access" , function ()
     ngx.ctx.upstream_url = "https://google.com/path"
     local conf = {}
     conf.replacement_url = "http://mockbin.com:8000"
-  
+
     access.execute(conf)
-    assert.equal(ngx.ctx.upstream_url, "http://mockbin.com:8000/path")
+    assert.equal("http://mockbin.com:8000/path", ngx.ctx.upstream_url)
   end)
 
   it ("should maintain the query parameters", function()
@@ -22,7 +22,7 @@ describe ("access" , function ()
     conf.replacement_url = "http://mockbin.com:8000"
 
     access.execute(conf)
-    assert.equal(ngx.ctx.upstream_url, "http://mockbin.com:8000/?key=value&key2=value2")
+    assert.equal("http://mockbin.com:8000/?key=value&key2=value2", ngx.ctx.upstream_url)
   end)
 
   it ("should maintain the fragment identifier", function()
@@ -31,7 +31,7 @@ describe ("access" , function ()
     conf.replacement_url = "http://mockbin.com:8000"
 
     access.execute(conf)
-    assert.equal(ngx.ctx.upstream_url, "http://mockbin.com:8000/path#top")
+    assert.equal("http://mockbin.com:8000/path#top", ngx.ctx.upstream_url)
   end)
 
   it ("should numbers in the path", function()
@@ -40,24 +40,66 @@ describe ("access" , function ()
     conf.replacement_url = "http://mockbin.com"
 
     access.execute(conf)
-    assert.equal(ngx.ctx.upstream_url, "http://mockbin.com/1234")
+    assert.equal("http://mockbin.com/1234", ngx.ctx.upstream_url)
   end)
-  
+
   it ("should include the path from the replacement url", function()
     ngx.ctx.upstream_url = "https://google.com:8080/1234"
     local conf = {}
     conf.replacement_url = "http://mockbin.com/5678"
 
     access.execute(conf)
-    assert.equal(ngx.ctx.upstream_url, "http://mockbin.com/5678/1234")
-  end) 
-  
+    assert.equal("http://mockbin.com/5678/1234", ngx.ctx.upstream_url)
+  end)
+
   it ("should ignore trailing slashes on the replacement url", function()
     ngx.ctx.upstream_url = "https://google.com:8080/1234"
     local conf = {}
     conf.replacement_url = "http://mockbin.com/5678/"
 
     access.execute(conf)
-    assert.equal(ngx.ctx.upstream_url, "http://mockbin.com/5678/1234")
-  end) 
+    assert.equal("http://mockbin.com/5678/1234", ngx.ctx.upstream_url)
+  end)
+
+  it ("should ensure that the result has a slash if theres no path", function()
+    ngx.ctx.upstream_url = "https://google.com:8080"
+    local conf = {}
+    conf.replacement_url = "http://mockbin.com"
+
+    access.execute(conf)
+    assert.equal("http://mockbin.com/", ngx.ctx.upstream_url)
+  end)
+
+  describe ("with just the replacement_url having a trailing slash" , function ()
+    it ("should ensure that the result has only one ending slash", function()
+      ngx.ctx.upstream_url = "https://google.com:8080"
+      local conf = {}
+      conf.replacement_url = "http://mockbin.com/"
+
+      access.execute(conf)
+      assert.equal("http://mockbin.com/", ngx.ctx.upstream_url)
+    end)
+  end)
+
+  describe ("with just the upstream_url having a trailing slash" , function ()
+    it ("should ensure that the result has only one ending slash", function()
+      ngx.ctx.upstream_url = "https://google.com:8080/"
+      local conf = {}
+      conf.replacement_url = "http://mockbin.com"
+
+      access.execute(conf)
+      assert.equal("http://mockbin.com/", ngx.ctx.upstream_url)
+    end)
+  end)
+
+  describe ("with both upstream_url and replacement_url having trailing slashes" , function ()
+    it ("should ensure that the result has only one ending slash", function()
+      ngx.ctx.upstream_url = "https://google.com:8080/"
+      local conf = {}
+      conf.replacement_url = "http://mockbin.com/"
+
+      access.execute(conf)
+      assert.equal("http://mockbin.com/", ngx.ctx.upstream_url)
+    end)
+  end)
 end)
