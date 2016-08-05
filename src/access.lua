@@ -1,7 +1,7 @@
 local _M = {}
 
 local function replaceHost(url, newHost)
-  local pathIndex = string.find(url, '[^/]/[^/]')
+  local pathIndex = url:find('[^/]/[^/]')
 
   if not pathIndex then
     return newHost

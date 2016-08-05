@@ -16,9 +16,9 @@ dev: install
 	done;
 
 lint:
-	@luacheck -q . \
-		--std 'ngx_lua+busted' \
-		--globals '_KONG' \
+	@luacheck -q src \
+		--std 'busted' \
+		--globals 'require' \
 		--globals 'ngx' \
 		--no-redefined \
 		--no-unused-args
