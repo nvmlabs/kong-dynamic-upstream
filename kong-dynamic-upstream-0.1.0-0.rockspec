@@ -13,8 +13,8 @@ dependencies = {
 build = {
   type = "builtin",
   modules = {
-    ["kong.plugins.dynamic_upstream.handler"] = "src/handler.lua",
-    ["kong.plugins.dynamic_upstream.access"] = "src/access.lua",
-    ["kong.plugins.dynamic_upstream.schema"] = "src/schema.lua"
+    ["kong.plugins.dynamic-upstream.handler"] = "src/handler.lua",
+    ["kong.plugins.dynamic-upstream.access"] = "src/access.lua",
+    ["kong.plugins.dynamic-upstream.schema"] = "src/schema.lua"
   }
 }

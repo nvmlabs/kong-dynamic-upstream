@@ -1,5 +1,5 @@
 local BasePlugin = require "kong.plugins.base_plugin"
-local access = require "kong.plugins.dynamic_upstream.access"
+local access = require "kong.plugins.dynamic-upstream.access"
 local DynamicUpstreamHandler = BasePlugin:extend()
 
 DynamicUpstreamHandler.PRIORITY = 10
