@@ -20,7 +20,7 @@ Optionally you can include:
 
 Some example replacement URLs are:
 - [http://localhost:8081/](http://localhost:8081/)
-- https://mockbin.org/bin/e5d28230-7462-46cb-8c90-58784104bc1d](https://mockbin.org/bin/e5d28230-7462-46cb-8c90-58784104bc1d
+- https://mockbin.org/bin/e5d28230-7462-46cb-8c90-58784104bc1d
 
 ---
 
