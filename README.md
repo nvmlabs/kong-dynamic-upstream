@@ -6,9 +6,9 @@ A Kong plugin that sets different upstream URLs based on API and Consumer.
 The path of the user's request to the API will be appended to the end of the replacement URL.
 The ```strip_request_path``` parameter will be respected.
 
-A request to an API at /foo, http://kong/foo/bar,
-by a consumer with the ```dynamic-upstream``` plugin configured with a ```replacement_url``` of https://snafu:4242
-will be directed to https://snafu:4242/bar.
+A request to an API at /foo that is set to strip the request path, [http://kong/foo/bar](http://kong/foo/bar),
+by a consumer with the ```dynamic-upstream``` plugin configured with a ```replacement_url``` of [https://snafu:4242](https://snafu:4242)
+will be directed to [https://snafu:4242/bar](https://snafu:4242/bar).
 
 The replacement URL must contain:
 - a new scheme, eg. _HTTPS_
@@ -19,8 +19,8 @@ Optionally you can include:
 - a new path, eg. _/path_
 
 Some example replacement URLs are:
-- http://localhost:8081/
-- https://mockbin.org/bin/e5d28230-7462-46cb-8c90-58784104bc1d
+- [http://localhost:8081/](http://localhost:8081/)
+- https://mockbin.org/bin/e5d28230-7462-46cb-8c90-58784104bc1d](https://mockbin.org/bin/e5d28230-7462-46cb-8c90-58784104bc1d
 
 ---
 
@@ -50,7 +50,7 @@ make dev
 ```
 
 ## Configuration
-This plugin can work when attached to All Consumers but really only makes sense when added to a specific Consumer to an API. You can add this plugin to a Consumer by making the following request to your Kong server:
+This plugin can work when attached to All Consumers but really only makes sense when added to a specific Consumer to an API. You can add this plugin to an API and Consumer by making the following request to your Kong server:
 
 ```bash
 $ curl -X POST http://kong:8001/apis/{api}/plugins \
@@ -65,4 +65,4 @@ $ curl -X POST http://kong:8001/apis/{api}/plugins \
 | --------------:| ----------- | ----------- |
 | ```name``` | *required*  | The name of the plugin to use, in this case: ```dynamic-upstream``` |
 | ```consumer_id``` | *optional*    | The id of the Consumer to redirect |
-| ```config.replacement_url``` | *required*    | The url to replace the default upstream specified in the API |
+| ```config.replacement_url``` | *required*    | The URL to replace the default upstream specified in the API |
