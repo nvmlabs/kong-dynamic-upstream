@@ -11,12 +11,12 @@ by a consumer with the ```dynamic-upstream``` plugin configured with a ```replac
 will be directed to [https://snafu:4242/bar](https://snafu:4242/bar).
 
 The replacement URL must contain:
-- a new scheme, eg. _HTTPS_
-- a new hostname, eg. _mockbin.com_
+- a scheme, eg. _HTTPS_
+- a hostname, eg. _mockbin.com_
 
 Optionally you can include:
-- a new port, eg. _:8080_
-- a new path, eg. _/path_
+- a port, eg. _:8080_
+- a path, eg. _/path_
 
 Some example replacement URLs are:
 - [http://localhost:8081/](http://localhost:8081/)
