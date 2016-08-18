@@ -18,7 +18,9 @@ Optionally you can include:
 - a port, eg. _:8080_
 - a path, eg. _/path_
 
-Some example replacement URLs are:
+Any existing path in the upstream_url configured for the API will not be replaced by the plugin. For example, an API with an upstream_url of http://www.google.com/foo and a dynamic-upstream plugin with a replacement_url of http://mockbin.com/bin/1234 will route consumers to http://mockbin.com/bin/1234/foo{request_path}.
+
+Some usage examples of valid replacement URLs:
 - [http://localhost:8081/](http://localhost:8081/)
 - https://mockbin.org/bin/e5d28230-7462-46cb-8c90-58784104bc1d
 
@@ -66,3 +68,26 @@ $ curl -X POST http://kong:8001/apis/{api}/plugins \
 | ```name``` | *required*  | The name of the plugin to use, in this case: ```dynamic-upstream``` |
 | ```consumer_id``` | *optional*    | The id of the Consumer to redirect |
 | ```config.replacement_url``` | *required*    | The URL to replace the default upstream specified in the API |
+
+
+## Usage Examples
+This table details the expected behaviour of the plugin for most of the possible combinations of API and dynamic-upstream plugin configurations.
+
+| API upstream_url         | API request_path | strip_request_path | Requested Path | dynamic-upstream replacement_url | Upstream                                    |
+| ------------------------ | ---------------- | ------------------ | -------------- | -------------------------------- | ------------------------------------------- |
+| http://google.com        | /foo             | true               | /foo           | https://localhost:9999           | https://localhost:9999                      |
+| http://google.com        | /foo             | false              | /foo           | https://localhost:9999           | https://localhost:9999/foo                  |
+| http://google.com        | /foo             | true               | /foo/bar       | https://localhost:9999           | https://localhost:9999/bar                  |
+| http://google.com        | /foo             | false              | /foo/bar       | https://localhost:9999           | https://localhost:9999/foo/bar              |
+| http://google.com        | /foo             | true               | /foo           | https://mockbin.com/bin/1234     | https://mockbin.com/bin/1234                |
+| http://google.com        | /foo             | false              | /foo           | https://mockbin.com/bin/1234     | https://mockbin.com/bin/1234/foo            |
+| http://google.com        | /foo             | true               | /foo/bar       | https://mockbin.com/bin/1234     | https://mockbin.com/bin/1234/bar            |
+| http://google.com        | /foo             | false              | /foo/bar       | https://mockbin.com/bin/1234     | https://mockbin.com/bin/1234/foo/bar        |
+| http://google.com/teapot | /foo             | true               | /foo           | https://localhost:9999           | https://localhost:9999/teapot               |
+| http://google.com/teapot | /foo             | false              | /foo           | https://localhost:9999           | https://localhost:9999/teapot/foo           |
+| http://google.com/teapot | /foo             | true               | /foo/bar       | https://localhost:9999           | https://localhost:9999/teapot/bar           |
+| http://google.com/teapot | /foo             | false              | /foo/bar       | https://localhost:9999           | https://localhost:9999/teapot/foo/bar       |
+| http://google.com/teapot | /foo             | true               | /foo           | https://mockbin.com/bin/1234     | https://mockbin.com/bin/1234/teapot         |
+| http://google.com/teapot | /foo             | false              | /foo           | https://mockbin.com/bin/1234     | https://mockbin.com/bin/1234/teapot/foo     |
+| http://google.com/teapot | /foo             | true               | /foo/bar       | https://mockbin.com/bin/1234     | https://mockbin.com/bin/1234/teapot/bar     |
+| http://google.com/teapot | /foo             | false              | /foo/bar       | https://mockbin.com/bin/1234     | https://mockbin.com/bin/1234/teapot/foo/bar |
