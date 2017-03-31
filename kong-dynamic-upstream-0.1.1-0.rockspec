@@ -1,5 +1,5 @@
 package = "kong-dynamic-upstream"
-version = "0.1.0-0"
+version = "0.1.1-0"
 source = {
   url = "git://github.com/nvmlabs/kong-dynamic-upstream"
 }
