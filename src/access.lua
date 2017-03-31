@@ -31,7 +31,9 @@ local function replaceHost(url, newHost)
 end
 
 function _M.execute(conf)
-  ngx.var.upstream_host = buildHostHeader(conf.replacement_url)
+  local hostHeader = buildHostHeader(conf.replacement_url)
+  ngx.req.set_header("host", hostHeader)
+  ngx.var.upstream_host = hostHeader
   ngx.ctx.upstream_url = replaceHost(ngx.ctx.upstream_url, conf.replacement_url)
 end
 

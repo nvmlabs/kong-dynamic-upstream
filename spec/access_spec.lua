@@ -3,7 +3,14 @@ local access = require "../src/access"
 describe ("access" , function ()
 
   setup(function()
+    _G.hostHeader = ""
     _G.ngx = {}
+    _G.ngx.req = {}
+    function ngx.req.set_header (name, value)
+      if name == "host" then
+        hostHeader = value
+      end
+    end
     _G.ngx.var = {}
     _G.ngx.ctx = {}
   end)
@@ -24,8 +31,8 @@ describe ("access" , function ()
     conf.replacement_url = "http://www.mockbin.com:8000/api"
 
     access.execute(conf)
-    assert.equal("http://www.mockbin.com:8000/api/path", ngx.ctx.upstream_url)
     assert.equal("www.mockbin.com:8000", ngx.var.upstream_host)
+    assert.equal("www.mockbin.com:8000", hostHeader)
   end)
 
   it ("should maintain the query parameters", function()
