@@ -1,4 +1,15 @@
+url = require "net.url"
+
 local _M = {}
+
+local function buildHostHeader(newHost)
+  u = url.parse(newHost)
+  hostHeader = u.host
+  if u.port then
+    hostHeader = hostHeader .. ":" .. u.port
+  end
+  return hostHeader
+end
 
 local function replaceHost(url, newHost)
   local pathIndex = url:find('[^/]/[^/]')
@@ -20,6 +31,7 @@ local function replaceHost(url, newHost)
 end
 
 function _M.execute(conf)
+  ngx.var.upstream_host = buildHostHeader(conf.replacement_url)
   ngx.ctx.upstream_url = replaceHost(ngx.ctx.upstream_url, conf.replacement_url)
 end
 

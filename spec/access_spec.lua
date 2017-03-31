@@ -4,6 +4,7 @@ describe ("access" , function ()
 
   setup(function()
     _G.ngx = {}
+    _G.ngx.var = {}
     _G.ngx.ctx = {}
   end)
 
@@ -14,6 +15,17 @@ describe ("access" , function ()
 
     access.execute(conf)
     assert.equal("http://mockbin.com:8000/path", ngx.ctx.upstream_url)
+  end)
+
+  it ("should update the Host header", function()
+    ngx.ctx.upstream_url = "https://google.com/path"
+    ngx.var.upstream_host = "google.com"
+    local conf = {}
+    conf.replacement_url = "http://www.mockbin.com:8000/api"
+
+    access.execute(conf)
+    assert.equal("http://www.mockbin.com:8000/api/path", ngx.ctx.upstream_url)
+    assert.equal("www.mockbin.com:8000", ngx.var.upstream_host)
   end)
 
   it ("should maintain the query parameters", function()
