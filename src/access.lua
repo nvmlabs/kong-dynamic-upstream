@@ -1,10 +1,10 @@
-url = require "net.url"
+local url = require "net.url"
 
 local _M = {}
 
 local function buildHostHeader(newHost)
-  u = url.parse(newHost)
-  hostHeader = u.host
+  local u = url.parse(newHost)
+  local hostHeader = u.host
   if u.port then
     hostHeader = hostHeader .. ":" .. u.port
   end
