@@ -1,5 +1,5 @@
 package = "kong-dynamic-upstream"
-version = "0.1.0-0"
+version = "0.1.2-0"
 source = {
   url = "git://github.com/nvmlabs/kong-dynamic-upstream"
 }
@@ -8,7 +8,8 @@ description = {
   license = "Apache 2.0"
 }
 dependencies = {
-  "lua ~> 5.1"
+  "lua ~> 5.1",
+  "net-url ~> 0.9-1"
 }
 build = {
   type = "builtin",
